@@ -1,4 +1,3 @@
-package starters;
 
 import java.net.Inet4Address;
 import java.net.ServerSocket;
