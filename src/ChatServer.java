@@ -51,8 +51,10 @@ public class ChatServer {
             BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
             String name = socket.getInetAddress().getHostName();
+            String status = ChatClient.status;
 
-            client = new ClientConnectionData(socket, in, out, name);
+
+            client = new ClientConnectionData(socket, in, out, name, status);
             synchronized (clientList) {
                 clientList.add(client);
             }
@@ -85,7 +87,9 @@ public class ChatServer {
                 BufferedReader in = client.getInput();
                 //get userName, first message from user
                 String userName = in.readLine().trim();
+                String status = in.readLine().trim();
                 client.setUserName(userName);
+                client.setStatus(status);
                 //notify all that client has joined
                 broadcast(String.format("WELCOME %s", client.getUserName()));
 
@@ -96,7 +100,7 @@ public class ChatServer {
                     if (incoming.startsWith("CHAT")) {
                         String chat = incoming.substring(4).trim();
                         if (chat.length() > 0) {
-                            String msg = String.format("CHAT %s: %s", client.getUserName(), chat);
+                            String msg = String.format("CHAT %s / %s: %s", client.getUserName(), client.getStatus(), chat);
                             broadcast(msg);
                         }
                     } else if (incoming.startsWith("QUIT")){

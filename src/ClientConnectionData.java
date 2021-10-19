@@ -8,12 +8,14 @@ public class ClientConnectionData {
     private PrintWriter out;
     private String name;
     private String userName;
+    private String status;
 
-    public ClientConnectionData(Socket socket, BufferedReader input, PrintWriter out, String name) {
+    public ClientConnectionData(Socket socket, BufferedReader input, PrintWriter out, String name, String status) {
         this.socket = socket;
         this.input = input;
         this.out = out;
         this.name = name;
+        this.status = status;
     }
 
     public Socket getSocket() {
@@ -51,6 +53,10 @@ public class ClientConnectionData {
     public String getUserName() {
         return userName;
     }
+
+    public String getStatus() { return status;}
+
+    public void setStatus(String status){this.status = status;}
 
     public void setUserName(String userName) {
         this.userName = userName;

@@ -9,6 +9,7 @@ public class ChatClient {
     private static Socket socket;
     private static BufferedReader socketIn;
     private static PrintWriter out;
+    public static String status;
 
     public static void main(String[] args) throws Exception {
         Scanner userInput = new Scanner(System.in);
@@ -31,6 +32,10 @@ public class ChatClient {
         System.out.print("Chat sessions has started - enter a user name: ");
         String name = userInput.nextLine().trim();
         out.println(name); //out.flush();
+
+        System.out.println("Please enter a status: ");
+        String status = userInput.nextLine().trim();
+        out.println(status);
 
         String line = userInput.nextLine().trim();
         while(!line.toLowerCase().startsWith("/quit")) {
