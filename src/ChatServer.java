@@ -51,7 +51,7 @@ public class ChatServer {
             BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
             String name = socket.getInetAddress().getHostName();
-            String status = ChatClient.status;
+            String status = ChatClient.initialStatus;
 
 
             client = new ClientConnectionData(socket, in, out, name, status);
@@ -100,10 +100,16 @@ public class ChatServer {
                     if (incoming.startsWith("CHAT")) {
                         String chat = incoming.substring(4).trim();
                         if (chat.length() > 0) {
-                            String msg = String.format("CHAT %s / %s: %s", client.getUserName(), client.getStatus(), chat);
+                            String msg = String.format("CHAT %s / %s: %s", client.getUserName(), client.getStatus(), chat.substring(4));
                             broadcast(msg);
                         }
-                    } else if (incoming.startsWith("QUIT")){
+                    }
+                    else if (incoming.startsWith("STATUS")){
+                        client.setStatus(incoming.substring(7));
+                        broadcast(String.format("Status has been changed to: %s", incoming.substring(7)));
+
+                    }
+                    else if (incoming.startsWith("QUIT")){
                         break;
                     }
                 }

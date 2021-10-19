@@ -3,13 +3,14 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.util.Locale;
 import java.util.Scanner;
 
 public class ChatClient {
     private static Socket socket;
     private static BufferedReader socketIn;
     private static PrintWriter out;
-    public static String status;
+    public static String initialStatus;
 
     public static void main(String[] args) throws Exception {
         Scanner userInput = new Scanner(System.in);
@@ -33,12 +34,20 @@ public class ChatClient {
         String name = userInput.nextLine().trim();
         out.println(name); //out.flush();
 
+        String status = "";
         System.out.println("Please enter a status: ");
-        String status = userInput.nextLine().trim();
-        out.println(status);
+        initialStatus = userInput.nextLine().trim();
+        out.println(initialStatus);
 
         String line = userInput.nextLine().trim();
         while(!line.toLowerCase().startsWith("/quit")) {
+            if(line.toLowerCase().startsWith("/status")){
+                status = String.format("STATUS %s", line.toLowerCase().substring(8));
+                out.println(status);
+
+                line = userInput.nextLine().trim();
+                continue;
+            }
             String msg = String.format("CHAT %s", line);
             out.println(msg);
             line = userInput.nextLine().trim();
