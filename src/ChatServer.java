@@ -106,7 +106,7 @@ public class ChatServer {
                     }
                     else if (incoming.startsWith("STATUS")){
                         client.setStatus(incoming.substring(7));
-                        broadcast(String.format("Status has been changed to: %s", incoming.substring(7)));
+                        broadcast(String.format("%s's status has been changed to: %s", client.getUserName(), incoming.substring(7)));
 
                     }
                     else if (incoming.startsWith("QUIT")){
