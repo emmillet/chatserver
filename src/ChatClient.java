@@ -3,6 +3,7 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.util.ArrayList;
 import java.util.Locale;
 import java.util.Scanner;
 
@@ -45,6 +46,17 @@ public class ChatClient {
                 status = String.format("STATUS %s", line.toLowerCase().substring(8));
                 out.println(status);
 
+                line = userInput.nextLine().trim();
+                continue;
+            }
+            else if(line.startsWith("@")){
+                int index = 1;
+                while(line.charAt(index) != ':'){
+                    index++;
+                }
+                String user = line.substring(1, index +1);
+                String dm = String.format("DM%s %s", user, line.substring(index+1));
+                out.println(dm);
                 line = userInput.nextLine().trim();
                 continue;
             }

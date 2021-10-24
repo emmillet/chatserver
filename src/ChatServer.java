@@ -109,6 +109,21 @@ public class ChatServer {
                         broadcast(String.format("%s's status has been changed to: %s", client.getUserName(), incoming.substring(7)));
 
                     }
+                    else if(incoming.startsWith("DM")){
+                        int index = 3;
+                        while(incoming.charAt(index)!=':'){
+                            index ++;
+                        }
+                        String user = incoming.substring(2, index);
+                        synchronized (clientList) {
+                            for (ClientConnectionData c: ChatServer.clientList){
+                                if(user.equals(c.getUserName())){
+                                    String dm = String.format("DM %s / %s: %s", client.getUserName(), client.getStatus(), incoming.substring(index+2));
+                                    c.getOut().println(dm);
+                                }
+                            }
+                        }
+                    }
                     else if (incoming.startsWith("QUIT")){
                         break;
                     }
