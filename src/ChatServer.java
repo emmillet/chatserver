@@ -100,7 +100,7 @@ public class ChatServer {
                     if (incoming.startsWith("CHAT")) {
                         String chat = incoming.substring(4).trim();
                         if (chat.length() > 0) {
-                            String msg = String.format("CHAT %s / %s: %s", client.getUserName(), client.getStatus(), chat.substring(4));
+                            String msg = String.format("CHAT %s / %s: %s", client.getUserName(), client.getStatus(), chat);
                             broadcast(msg);
                         }
                     }
